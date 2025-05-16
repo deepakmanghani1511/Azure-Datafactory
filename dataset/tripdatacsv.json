@@ -1,0 +1,23 @@
+{
+	"name": "tripdatacsv",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ADLSTaxitrip",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "TripData.csv",
+				"fileSystem": "tripdatats"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}

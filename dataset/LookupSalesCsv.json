@@ -1,0 +1,22 @@
+{
+	"name": "LookupSalesCsv",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureLookupBlob",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"container": "saleslookupdata"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}

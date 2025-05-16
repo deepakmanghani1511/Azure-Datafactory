@@ -1,0 +1,69 @@
+{
+	"name": "FlipkartDataFlow",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "FlipkartDS",
+						"type": "DatasetReference"
+					},
+					"name": "FlipkartStreamData"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "FlipkartPqt",
+						"type": "DatasetReference"
+					},
+					"name": "FlipKartdatasink"
+				}
+			],
+			"transformations": [
+				{
+					"name": "FilterLowFlipkartProd"
+				},
+				{
+					"name": "AddPositiveRatio"
+				},
+				{
+					"name": "AddTotalStars"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          id as string,",
+				"          title as string,",
+				"          Rating as string,",
+				"          maincateg as string,",
+				"          platform as string,",
+				"          actprice1 as string,",
+				"          norating1 as string,",
+				"          noreviews1 as string,",
+				"          star_5f as string,",
+				"          star_4f as string,",
+				"          star_3f as string,",
+				"          star_2f as string,",
+				"          star_1f as string,",
+				"          fulfilled1 as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     wildcardPaths:['Flipkart.csv']) ~> FlipkartStreamData",
+				"FlipkartStreamData filter(toInteger(noreviews1) >= 10 && toInteger(norating1) >= 10\r",
+				") ~> FilterLowFlipkartProd",
+				"FilterLowFlipkartProd derive(positive_review_ratio = toString(toFloat(star_5f) / toFloat(norating1))\r",
+				") ~> AddPositiveRatio",
+				"AddPositiveRatio derive(Total_Stars = star_1f + star_2f + star_3f + star_4f + star_5f) ~> AddTotalStars",
+				"AddTotalStars sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'parquet',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> FlipKartdatasink"
+			]
+		}
+	}
+}
