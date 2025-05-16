@@ -5,7 +5,7 @@
 		"annotations": [],
 		"type": "AzureSqlDatabase",
 		"typeProperties": {
-			"server": "adftusharserver.database.windows.net",
+			"server": "adfdeepakserver.database.windows.net",
 			"database": "taxi-data",
 			"encrypt": "mandatory",
 			"trustServerCertificate": false,
